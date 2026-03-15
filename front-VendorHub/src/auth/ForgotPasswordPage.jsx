@@ -1,13 +1,13 @@
-// src/pages/ForgotPasswordPage.jsx
+
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { authApi } from '../api'; // افترض إن عندك دالة هنا
+import { authApi } from '../api'; 
 import toast from 'react-hot-toast';
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState({ type: null, message: '' }); // 'success' or 'error'
+  const [status, setStatus] = useState({ type: null, message: '' }); 
   const [errors, setErrors] = useState({});
 
   const validateForm = () => {
@@ -28,20 +28,17 @@ export default function ForgotPasswordPage() {
     if (!validateForm()) return;
 
     setLoading(true);
-    setStatus({ type: null, message: '' }); // تفريغ الحالة القديمة
+    setStatus({ type: null, message: '' }); 
 
     try {
-      // استبدل ده بالـ API بتاعك
-      // const { data } = await authApi.forgotPassword({ email });
-      
-      // محاكاة لنجاح الطلب (للتجربة)
+
       await new Promise(resolve => setTimeout(resolve, 1500));
       
       setStatus({ 
         type: 'success', 
         message: "If an account exists, a password reset link has been sent to your email." 
       });
-      setEmail(''); // تفريغ الحقل بعد النجاح
+      setEmail(''); 
       toast.success('Reset link sent!');
 
     } catch (err) {
@@ -56,7 +53,6 @@ export default function ForgotPasswordPage() {
 
   return (
     <div className="min-h-[calc(100vh-64px)] overflow-hidden flex items-center justify-center bg-gray-50 dark:bg-[#0b0f19] transition-colors duration-500 relative px-4">
-      {/* Background Grid */}
       <div className="absolute inset-0 z-0 opacity-10 dark:opacity-[0.03] transition-opacity duration-500" 
            style={{
              backgroundImage: `linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px)`,
@@ -67,10 +63,8 @@ export default function ForgotPasswordPage() {
 
       <div className="relative z-10 w-full max-w-[400px] bg-white dark:bg-[#141728] px-8 py-8 rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.1)] dark:shadow-[0_10px_30px_rgba(0,0,0,0.5)] border border-gray-200 dark:border-white/5 transition-colors duration-500">
         
-        {/* Top Gradient Border */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-[2px] bg-gradient-to-r from-transparent via-[#00d2ff] to-[#8a2387] rounded-t-2xl"></div>
 
-        {/* Header */}
         <div className="mb-6 text-center">
           <div className="inline-flex items-center justify-center w-12 h-12 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-[#8b85ff] rounded-xl mb-4">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" /></svg>
@@ -83,7 +77,6 @@ export default function ForgotPasswordPage() {
           </p>
         </div>
 
-        {/* Status Message (يظهر فوق الفيلد زي ما طلبت) */}
         {status.message && (
           <div className={`mb-4 p-3 rounded-lg text-[0.8rem] flex items-start gap-2 animate-[fadeSlideUp_0.3s_ease-out]
             ${status.type === 'success' ? 'bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 border border-green-200 dark:border-green-800/30' : 
@@ -98,7 +91,6 @@ export default function ForgotPasswordPage() {
         )}
 
         <form onSubmit={handleSubmit}>
-          {/* Email Group */}
           <div className="mb-5">
             <label className="block text-[0.8rem] mb-1.5 text-gray-700 dark:text-[#d1d5db] font-medium transition-colors duration-500">
               Email Address
@@ -122,7 +114,6 @@ export default function ForgotPasswordPage() {
             {errors.email && <span className="text-[10px] text-red-500 mt-1 block animate-pulse">{errors.email}</span>}
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             disabled={loading || !isFormValid}

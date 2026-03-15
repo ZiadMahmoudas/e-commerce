@@ -1,7 +1,5 @@
-// src/pages/HomePage.jsx
 import { Link } from 'react-router-dom';
 
-// ─── Mock Data ───────────────────────────────────────
 const MOCK_VENDORS = [
   { id: 'amazon-eg', name: 'Amazon Prime Store', logo: 'https://images.unsplash.com/photo-1523474253046-8cd2748b5fd2?w=150&q=80', cover: 'https://images.unsplash.com/photo-1523474253046-8cd2748b5fd2?w=600&q=80', rating: 4.9, productsCount: '15k+', tagline: 'Everything from A to Z with prime delivery.', categories: ['Electronics', 'Home'] },
   { id: 'nike-official', name: 'Nike Official', logo: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=150&q=80', cover: 'https://images.unsplash.com/photo-1556906781-9a412961c28c?w=600&q=80', rating: 4.8, productsCount: '340', tagline: 'Just Do It. Premium sportswear and sneakers.', categories: ['Sports', 'Fashion'] },
@@ -16,7 +14,6 @@ const MOCK_PRODUCTS = [
   { id: 4, title: 'Premium Oxford Cotton Button-Down Shirt', vendor: 'Zara Outlet', category: 'Clothing', price: 45, oldPrice: 65, rating: 4.3, reviews: 103, stock: 200, badge: 'sale', image: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500&q=80' },
 ];
 
-// ─── Vendor Card Component ────────────────────────────────
 function VendorCard({ vendor }) {
   return (
     <Link to={`/store/${vendor.id}`} className="group block bg-white dark:bg-[#141728] border border-gray-200 dark:border-[#2a2e45] rounded-2xl transition-all duration-300 hover:shadow-xl hover:border-[#625df5] hover:-translate-y-1 overflow-hidden relative">
@@ -48,7 +45,6 @@ function VendorCard({ vendor }) {
   );
 }
 
-// ─── Product Card Component ───────────────────────────
 function ProductCard({ product }) {
   return (
     <div className="group relative bg-white dark:bg-[#141728] border border-gray-200 dark:border-[#2a2e45] rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-[0_12px_30px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_12px_30px_rgba(0,0,0,0.4)] flex flex-col h-full">
@@ -65,7 +61,6 @@ function ProductCard({ product }) {
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
           </button>
           
-          {/* هنا التعديل: بدل onView بنوجهه للصفحة */}
           <Link to={`/products/${product.id}`} className="w-9 h-9 bg-white/90 backdrop-blur text-gray-700 rounded-full flex items-center justify-center shadow-md hover:text-[#625df5] hover:bg-white hover:scale-110 transition-all" title="View Product">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
           </Link>
@@ -97,7 +92,6 @@ function ProductCard({ product }) {
   );
 }
 
-// ─── Main HomePage Component ───────────────────────────────────────────────
 export default function HomePage() {
   return (
     <div className="min-h-[calc(100vh-64px)] bg-gray-50 dark:bg-[#0b0f19] transition-colors duration-500 relative pb-16">

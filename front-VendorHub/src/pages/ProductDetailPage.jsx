@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { productApi, orderApi, favoriteApi } from '../api/index'; // تأكد من الـ imports حسب مشروعك
+import { productApi, orderApi, favoriteApi } from '../api/index'; 
 import { useAuthStore } from '../store/authStore';
 import toast from 'react-hot-toast';
 
@@ -18,7 +18,6 @@ export default function ProductDetailPage() {
   const [submittingReview, setSubmittingReview] = useState(false);
 
   useEffect(() => {
-    // محاكاة جلب البيانات، أو استخدم הـ API بتاعك الفعلي
     Promise.all([
       productApi.getById(id),
       productApi.getReviews(id)
@@ -29,7 +28,6 @@ export default function ProductDetailPage() {
     })
     .catch((err) => {
       console.error("Error fetching product data:", err);
-      // في حالة الفشل نضع داتا وهمية لغرض العرض في هذا الكود
       setProduct({
          id: id,
          title: 'Apple iPhone 15 Pro Max (256GB)',
@@ -60,7 +58,7 @@ export default function ProductDetailPage() {
     setBuyLoading(true);
     try {
       // const { data } = await orderApi.place({ items: [{ productId: parseInt(id), quantity }] });
-      await new Promise(resolve => setTimeout(resolve, 1000)); // محاكاة
+      await new Promise(resolve => setTimeout(resolve, 1000)); 
       toast.success('Order placed successfully! 🎉');
       setProduct((p) => ({ ...p, stock: p.stock - quantity }));
     } catch (err) {
@@ -83,11 +81,10 @@ export default function ProductDetailPage() {
     setSubmittingReview(true);
     try {
       // const { data } = await productApi.submitReview(id, review);
-      await new Promise(resolve => setTimeout(resolve, 1000)); // محاكاة
+      await new Promise(resolve => setTimeout(resolve, 1000)); 
       toast.success('Review submitted!');
-      // تحديث مصفوفة الريفيوز
       setReviews([{ id: Date.now(), customerName: user.fullName || 'You', rating: review.rating, comment: review.comment, createdAt: new Date().toISOString() }, ...reviews]);
-      setReview({ rating: 5, comment: '' }); // إعادة تعيين الفورم
+      setReview({ rating: 5, comment: '' }); 
     } catch (err) {
       toast.error(err.response?.data?.message || 'Failed to submit review');
     } finally {
@@ -120,21 +117,17 @@ export default function ProductDetailPage() {
   return (
     <div className="min-h-[calc(100vh-64px)] bg-gray-50 dark:bg-[#0b0f19] py-8 md:py-12 transition-colors duration-500 relative">
       
-      {/* شبكة الخلفية */}
       <div className="absolute inset-0 z-0 opacity-10 dark:opacity-[0.03] pointer-events-none" style={{ backgroundImage: `linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px)`, backgroundSize: '40px 40px', color: 'currentcolor' }}></div>
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-8">
         
-        {/* زر الرجوع */}
         <button onClick={() => navigate(-1)} className="text-sm font-medium text-gray-500 dark:text-[#8b94a7] hover:text-[#625df5] dark:hover:text-[#8b85ff] flex items-center gap-2 transition-colors w-fit mb-2">
            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
            Back
         </button>
 
-        {/* ─── Product Main Section ─── */}
         <div className="bg-white dark:bg-[#141728] rounded-3xl border border-gray-200 dark:border-[#2a2e45] shadow-sm overflow-hidden flex flex-col md:flex-row transition-colors duration-500 relative">
           
-          {/* Left: Image */}
           <div className="md:w-1/2 bg-gray-100 dark:bg-[#1e2136] relative min-h-[350px] md:min-h-[500px] flex items-center justify-center">
             {product.imageUrls?.[0] ? (
               <img src={product.imageUrls[0]} alt={product.title} className="w-full h-full object-cover absolute inset-0" />
@@ -144,10 +137,8 @@ export default function ProductDetailPage() {
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none"></div>
           </div>
 
-          {/* Right: Details */}
           <div className="md:w-1/2 p-8 lg:p-12 flex flex-col">
             
-            {/* Category & Vendor */}
             <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
                <span className="bg-indigo-50 dark:bg-[#1e2136] text-indigo-600 dark:text-[#d1d5db] px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wide border border-indigo-100 dark:border-[#2a2e45]">
                  {product.categoryName}
@@ -158,12 +149,10 @@ export default function ProductDetailPage() {
                </Link>
             </div>
 
-            {/* Title */}
             <h1 className="text-3xl lg:text-4xl font-extrabold text-gray-900 dark:text-white mb-4 leading-tight">
               {product.title}
             </h1>
 
-            {/* Price & Rating */}
             <div className="flex flex-wrap items-end gap-6 mb-6 pb-6 border-b border-gray-100 dark:border-[#2a2e45]">
               <div className="flex items-end gap-3">
                  <span className="text-4xl font-black text-[#625df5] dark:text-white">${product.price.toFixed(2)}</span>
@@ -177,12 +166,10 @@ export default function ProductDetailPage() {
               </div>
             </div>
 
-            {/* Description */}
             <div className="prose dark:prose-invert prose-sm text-gray-600 dark:text-[#8b94a7] mb-8 leading-relaxed">
                <p>{product.description}</p>
             </div>
 
-            {/* Stats (Views & Stock) */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 mb-8 text-sm">
               <div className="flex items-center gap-2 text-green-600 dark:text-green-400 font-semibold bg-green-50 dark:bg-green-500/10 border border-green-100 dark:border-green-500/20 px-3 py-1.5 rounded-lg">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
@@ -194,7 +181,6 @@ export default function ProductDetailPage() {
               </div>
             </div>
 
-            {/* Actions (Qty + Buy + Fav) */}
             <div className="mt-auto">
               {product.stock > 0 ? (
                 <div className="space-y-4">
@@ -242,13 +228,11 @@ export default function ProductDetailPage() {
           </div>
         </div>
 
-        {/* ─── Reviews Section ─── */}
         <div className="bg-white dark:bg-[#141728] rounded-3xl border border-gray-200 dark:border-[#2a2e45] shadow-sm p-8 lg:p-12 transition-colors duration-500">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8 flex items-center gap-2">
             Customer Reviews <span className="text-[#625df5] text-lg">({reviews.length})</span>
           </h2>
 
-          {/* Submit review (Customer only) */}
           {user?.role === 'Customer' && (
             <form onSubmit={handleReview} className="mb-10 p-6 bg-gray-50 dark:bg-[#1e2136] border border-gray-200 dark:border-[#2a2e45] rounded-2xl space-y-4 transition-colors">
               <h3 className="font-bold text-gray-800 dark:text-white text-lg mb-2">Write a Review</h3>
@@ -288,7 +272,6 @@ export default function ProductDetailPage() {
             </form>
           )}
 
-          {/* Reviews List */}
           {reviews.length === 0 ? (
             <div className="text-center py-12">
                <svg className="w-12 h-12 mx-auto text-gray-300 dark:text-[#2a2e45] mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>

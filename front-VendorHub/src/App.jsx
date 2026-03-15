@@ -11,7 +11,7 @@ function App() {
       position="top-center"
       toastOptions={{
         duration: 4000,
-        className: 'cursor-pointer', // بيخلي الماوس شكل إيد لما تقف عليه
+        className: 'cursor-pointer', 
     
       }} 
       containerStyle={{}}

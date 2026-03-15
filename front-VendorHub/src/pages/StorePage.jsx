@@ -1,14 +1,12 @@
 import { useState, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 
-// ─── Mock Data ───
 const MOCK_VENDORS = [
   { id: 'amazon-eg', name: 'Amazon Prime Store', logo: 'https://images.unsplash.com/photo-1523474253046-8cd2748b5fd2?w=150&q=80', cover: 'https://images.unsplash.com/photo-1523474253046-8cd2748b5fd2?w=1200&q=80', rating: 4.9, productsCount: '15k+', tagline: 'Everything from A to Z with prime delivery.', categories: ['Electronics', 'Home', 'Fashion'] },
   { id: 'tech-hub', name: 'TechHub Egypt', logo: 'https://images.unsplash.com/photo-1531297172864-822d103328ce?w=150&q=80', cover: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&q=80', rating: 4.7, productsCount: '1.2k', tagline: 'Top tier laptops, PCs, and gaming gears.', categories: ['Computers', 'Gaming'] },
   { id: 'nike-official', name: 'Nike Official', logo: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=150&q=80', cover: 'https://images.unsplash.com/photo-1556906781-9a412961c28c?w=1200&q=80', rating: 4.8, productsCount: '340', tagline: 'Just Do It. Premium sportswear and sneakers.', categories: ['Sports', 'Fashion'] }
 ];
 
-// أضفت brand لكل منتج عشان الفلترة
 const MOCK_PRODUCTS = [
   { id: 1, vendorId: 'tech-hub', title: 'Apple iPhone 15 Pro Max (256GB)', vendor: 'TechHub Egypt', brand: 'Apple', category: 'Electronics', price: 1199, oldPrice: 1299, rating: 4.8, reviews: 1245, stock: 12, badge: 'hot', image: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=500&q=80' },
   { id: 2, vendorId: 'amazon-eg', title: 'Sony WH-1000XM5 Headphones', vendor: 'Amazon Prime Store', brand: 'Sony', category: 'Electronics', price: 348, oldPrice: 399, rating: 4.9, reviews: 891, stock: 45, badge: 'sale', image: 'https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=500&q=80' },
@@ -17,7 +15,6 @@ const MOCK_PRODUCTS = [
   { id: 5, vendorId: 'amazon-eg', title: 'Samsung 55" QLED 4K Smart TV', vendor: 'Amazon Prime Store', brand: 'Samsung', category: 'Electronics', price: 799, oldPrice: 899, rating: 4.5, reviews: 211, stock: 5, badge: 'hot', image: 'https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=500&q=80' },
 ];
 
-// ─── Product Card Component ───────────────────────────────
 function ProductCard({ product }) {
   return (
     <div className="group relative bg-white dark:bg-[#141728] border border-gray-200 dark:border-[#2a2e45] rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-[0_12px_30px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_12px_30px_rgba(0,0,0,0.4)] flex flex-col h-full">
@@ -58,11 +55,9 @@ function ProductCard({ product }) {
   );
 }
 
-// ─── Main Store Page Component ─────────────────────────────────────────────
 export default function StorePage() {
   const { id } = useParams();
   
-  // ─── States ───
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('default');
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -72,15 +67,12 @@ export default function StorePage() {
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(5000);
 
-  // ─── Data Fetching ───
   const store = MOCK_VENDORS.find(v => v.id === id);
   const allStoreProducts = useMemo(() => MOCK_PRODUCTS.filter(p => p.vendorId === id), [id]);
 
-  // استخراج الفئات والعلامات التجارية المتاحة في هذا المتجر فقط
   const availableCategories = useMemo(() => ['All', ...new Set(allStoreProducts.map(p => p.category))], [allStoreProducts]);
   const availableBrands = useMemo(() => [...new Set(allStoreProducts.map(p => p.brand))], [allStoreProducts]);
 
-  // ─── Filtering Logic ───
   const filteredProducts = useMemo(() => {
     let filtered = [...allStoreProducts];
 
@@ -101,7 +93,6 @@ export default function StorePage() {
     return filtered;
   }, [allStoreProducts, searchQuery, selectedCategory, selectedBrands, minPrice, maxPrice, sortBy]);
 
-  // ─── Handlers ───
   const handleMinChange = (e) => setMinPrice(Math.min(Number(e.target.value), maxPrice - 10));
   const handleMaxChange = (e) => setMaxPrice(Math.max(Number(e.target.value), minPrice + 10));
   const toggleBrand = (brand) => {
@@ -129,7 +120,6 @@ export default function StorePage() {
     <div className="min-h-[calc(100vh-64px)] bg-gray-50 dark:bg-[#0b0f19] transition-colors duration-500 relative pb-16">
       <div className="absolute inset-0 z-0 opacity-10 dark:opacity-[0.03] pointer-events-none" style={{ backgroundImage: `linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px)`, backgroundSize: '40px 40px', color: 'currentcolor' }}></div>
 
-      {/* ─── Store Header Profile ─── */}
       <div className="relative z-10 w-full bg-white dark:bg-[#141728] border-b border-gray-200 dark:border-[#2a2e45] shadow-sm pb-6 sm:pb-8">
         <div className="h-40 sm:h-48 md:h-72 w-full relative">
           <img src={store.cover} alt="Store Cover" className="w-full h-full object-cover" />
@@ -162,10 +152,7 @@ export default function StorePage() {
         </div>
       </div>
 
-      {/* ─── Store Products Section with Sidebar ─── */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 relative z-10 flex flex-col lg:flex-row gap-8">
-        
-        {/* ======================= Left Sidebar (Store Specific Filters) ======================= */}
         <aside className="w-full lg:w-64 flex-shrink-0 space-y-6">
           <div className="bg-white dark:bg-[#141728] border border-gray-200 dark:border-[#2a2e45] rounded-2xl shadow-sm overflow-hidden transition-colors duration-500">
             
@@ -176,7 +163,6 @@ export default function StorePage() {
               </h3>
             </div>
 
-            {/* Category Filter */}
             <div className="p-5 border-b border-gray-100 dark:border-[#2a2e45]">
               <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-3 text-sm">Categories</h4>
               <div className="space-y-2">
@@ -201,7 +187,6 @@ export default function StorePage() {
               </div>
             </div>
 
-            {/* Brands Filter */}
             {availableBrands.length > 0 && (
               <div className="p-5 border-b border-gray-100 dark:border-[#2a2e45]">
                 <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-3 text-sm">Brands</h4>
@@ -227,7 +212,6 @@ export default function StorePage() {
               </div>
             )}
 
-            {/* Price Range */}
             <div className="p-5">
               <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-4 text-sm">Price Range</h4>
               <div className="flex items-center gap-2 mb-6">
@@ -251,7 +235,6 @@ export default function StorePage() {
           </div>
         </aside>
 
-        {/* ======================= Main Content ======================= */}
         <div className="flex-1 flex flex-col space-y-6">
           
           <div className="bg-white dark:bg-[#141728] border border-gray-200 dark:border-[#2a2e45] rounded-2xl p-4 shadow-sm flex flex-col sm:flex-row justify-between items-center gap-4 transition-colors duration-500">
